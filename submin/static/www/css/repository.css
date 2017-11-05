@@ -13,7 +13,7 @@ span.link a:hover {
 
 div.repostree.c_icon {
 	margin-right: 1em;
-	margin-top: 0.25em;
+	/*margin-top: 0.25em;*/
 }
 
 img.repostree-folder {
@@ -24,7 +24,7 @@ img.repostree-folder {
 }
 
 span.repostree-noncollapsable {
-	padding-left: 1.5em;
+	padding-left: 2em;
 }
 
 #repostree li span {
@@ -116,4 +116,8 @@ div.settings ul li label {
 div.settings ul li input {
 	vertical-align: text-top;
 	margin: 0 0.5em;
+}
+
+li.repostree {
+	margin-top: 0.25em;
 }

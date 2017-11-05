@@ -1,5 +1,12 @@
 #!/usr/bin/python
 import sys
+
+# put the root directory of the script into the include path
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir) #www
+basedir = os.path.dirname(parentdir) #submin
+sys.path.insert(0,parentdir) 
+
 import os
 
 try:

@@ -1,4 +1,12 @@
 #!/usr/bin/python
+
+import os,sys,inspect
+
+# put the root directory of the script into the include path
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+
 import submin, sys
 from submin.subminadmin import SubminAdmin
 
