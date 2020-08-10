@@ -1,7 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.realpath(__file__)) #bin
 parentdir = os.path.dirname(currentdir) #submin
+print ("Base dir: %s" % parentdir)
 sys.path.insert(0,parentdir) 
 
 import submin

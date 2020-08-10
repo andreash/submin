@@ -1,6 +1,6 @@
 import os
 import sys
-import commands
+import subprocess
 
 from submin.models import options
 from submin.models import repository
@@ -11,7 +11,7 @@ def run(reposname):
 	old_path = os.environ["PATH"]
 	os.environ["PATH"] = options.value("env_path")
 	cmd = 'rm -rf "%s"' % str(reposdir)
-	(exitstatus, outtext) = commands.getstatusoutput(cmd)
+	(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 	os.environ["PATH"] = old_path
 
 	if exitstatus != 0:

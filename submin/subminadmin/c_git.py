@@ -12,7 +12,7 @@ from .common import executeCmd, which, CmdException, SubminAdminCmdException, ww
 ERROR_STR = "submin2-admin git %s is not supposed to be called by users."
 
 def die(cmd):
-    print >>sys.stderr, ERROR_STR % cmd
+    print (ERROR_STR % cmd,file=sys.stderr)
     sys.exit(1)
 
 class ProgramNotFoundError(Exception):
@@ -64,9 +64,9 @@ Usage:
         except SubminAdminCmdException:
             pass
         except CmdException as e:
-            print >>sys.stderr, e.usermsg
-            print >>sys.stderr, "Command:", e.cmd
-            print >>sys.stderr, "Error message of the command was:", e.errormsg
+            print (e.usermsg, file=sys.stderr)
+            print ("Command:", e.cmd, file=sys.stderr)
+            print ("Error message of the command was:", e.errormsg, file=sys.stderr)
             sys.exit(1)
         # other exceptions are just raised
 
@@ -200,7 +200,7 @@ Usage:
         executeCmd(cmd, "Could not install authorized_keys-file. Please check whether the git-user has read-access to the submin-environment directory")
 
     def prompt_user(self, prompt, defval):
-        a = raw_input("%s [%s]> " % (prompt, defval))
+        a = input("%s [%s]> " % (prompt, defval))
         if a == '':
             return defval
         return a
@@ -279,7 +279,7 @@ Usage:
         ssh_key_file = options.env_path() + 'conf' + 'id_dsa'
         ssh_pub_key = str(ssh_key_file) + '.pub'
         if ssh_key_file.exists():
-            print >>sys.stderr, "Not creating ssh key, since one already exists:", ssh_key_file
+            print ("Not creating ssh key, since one already exists:", ssh_key_file, file=sys.stderr)
             return
         cmd = 'ssh-keygen -t dsa -f %s -N ""' % ssh_key_file
         executeCmd(cmd, "Could not create an ssh key")
@@ -289,7 +289,7 @@ Usage:
         os.chmod(str(ssh_key_file), 0o600)
         os.chown(ssh_pub_key, owner.pw_uid, owner.pw_gid)
         os.chmod(ssh_pub_key, 0o644)
-        print "ssh-key is now owned by %s" % owner.pw_name
+        print ("ssh-key is now owned by %s" % owner.pw_name)
 
     def add_user_to_group(self, username, group_id):
         cmd = "usermod -a -G %s %s" % (group_id, username)

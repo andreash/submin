@@ -26,7 +26,7 @@ class PassThrough(View):
 
 		_, ext = os.path.splitext(fullpath)
 		
-		return FileResponse(''.join(file(fullpath).readlines()), self.mimetype(ext))
+		return FileResponse(''.join(open(fullpath).readlines()), self.mimetype(ext))
 
 	def mimetype(self, ext):
 		mimetypes = {

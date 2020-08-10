@@ -1,6 +1,5 @@
 import os
 import glob
-import commands
 from submin.models import options
 from submin.models.exceptions import UnknownKeyError, MissingConfig
 from submin.models.repository import DoesNotExistError, PermissionError

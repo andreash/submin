@@ -1,7 +1,6 @@
 import os
 import sys
 import errno
-import commands
 import shutil
 
 from submin.common import shellscript

@@ -137,7 +137,7 @@ def hook_uptodate(filename, version_re, newest_version):
 	date if the template is newer than the generated template. The version_re
 	is a regular expression with one capture group (the version as a number)"""
 	try:
-		hook = file(filename, 'r').readlines()
+		hook = open(filename, 'r').readlines()
 	except IOError as e:
 		if e.errno == errno.ENOENT:
 			return False

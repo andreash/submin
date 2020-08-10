@@ -20,13 +20,13 @@ Usage:
 	def subcmd_fix(self, argv):
 		from submin.models import options
 		if os.getuid() != 0:
-			print '''
+			print ('''
 To set permissions and ownerships properly, execute:
 
     sudo submin2-admin %s unixperms fix
 
 This should also remove possible following warnings.
-''' % self.sa.env
+''' % self.sa.env)
 			self.root = False
 
 		vcs_plugins = options.value("vcs_plugins")
@@ -97,15 +97,15 @@ This should also remove possible following warnings.
 
 				os.chmod(item, permission)
 			except OSError:
-				print ' *** Failed to change permissions of %s' % item
-				print '     Do you have the right permissions?'
+				print (' *** Failed to change permissions of %s' % item)
+				print ('     Do you have the right permissions?')
 				success = False
 
 		if self.root:
 			try:
 				os.chown(item, user, group)
 			except OSError:
-				print ' *** Failed to change ownership of %s' % item
+				print (' *** Failed to change ownership of %s' % item)
 				success = False
 
 		return success

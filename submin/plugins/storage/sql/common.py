@@ -82,7 +82,7 @@ def database_evolve(verbose=False):
 	cursor = db.cursor()
 	for version, script in list(reversed(schema.sql_scripts))[start:end]:
 		if verbose:
-			print "Evolving database from version", (version - 1), "to", version
+			print ("Evolving database from version", (version - 1), "to", version)
 		try:
 			cursor.executescript(script)
 		except Exception as e:
@@ -99,7 +99,7 @@ def database_evolve(verbose=False):
 			(schema_version,))
 	db.con.commit()
 	if verbose:
-		print "Database is now at version", schema_version
+		print ("Database is now at version", schema_version)
 
 # sqlite3 specific variables / functions
 
@@ -117,7 +117,7 @@ def default_execute(cursor, query, args=(), commit=True):
 
 def debug_execute(cursor, query, args=(), commit=True):
 	dbg_sql = query.replace("?", '"%s"')
-	print "DBG:", dbg_sql % args
+	print ("DBG:", dbg_sql % args)
 	default_execute(cursor, query, args, commit=commit)
 
 execute = default_execute

@@ -1,4 +1,4 @@
-import commands
+import subprocess
 
 from submin.models import options
 
@@ -16,7 +16,7 @@ def execute(remote_command):
 	cmd = cmd % (ssh_key_path,
 		options.value("git_user"), options.value("git_ssh_host_internal"),
 		options.value("git_ssh_port"), remote_command)
-	(exitstatus, outtext) = commands.getstatusoutput(cmd)
+	(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 
 	if exitstatus != 0:
 		raise NonZeroExitStatus(cmd + ': ' + outtext)

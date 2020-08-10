@@ -30,7 +30,7 @@ def main():
 		path.append(os.environ[env])
 
 	if len(argv) < 4:
-		print "Usage: %s <configfile> <repository path> <revision>" % argv[0]
+		print ("Usage: %s <configfile> <repository path> <revision>" % argv[0])
 		return
 
 	os.environ['SUBMIN_ENV'] = argv[1]
@@ -49,7 +49,7 @@ def main():
 	n = buildNotifications(userlist)
 	repos = os.path.basename(repospath)
 	if repos not in n:
-		print "no such repository"
+		print ("no such repository")
 		return
 
 	mailer = bindir + scriptname

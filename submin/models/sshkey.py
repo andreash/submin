@@ -7,7 +7,7 @@ from submin.common.execute import check_output
 def openssh_import(sshtype, ssh_key):
 	(fd, fname) = tempfile.mkstemp(text=True)
 	os.close(fd)
-	file(fname, 'w').write(ssh_key)
+	open(fname, 'w').write(ssh_key)
 	try:
 		openssh_format = check_output(['ssh-keygen', '-i', '-m', sshtype, '-f', fname])
 	except subprocess.CalledProcessError as e:

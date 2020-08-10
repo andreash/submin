@@ -1,5 +1,4 @@
 import os
-import commands
 
 from submin.common.osutils import mkdirs
 
@@ -12,8 +11,8 @@ def create_dir(env, directory):
 	try:
 		mkdirs(str(directory), mode=0o700)
 	except OSError as e:
-		print 'making dir %s failed, do you have permissions?' % \
-				str(directory)
+		print ('making dir %s failed, do you have permissions?' % \
+				str(directory))
 		raise e
 
 class SubminAdminCmdException(Exception):

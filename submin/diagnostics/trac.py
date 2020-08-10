@@ -1,8 +1,8 @@
 import os
-import urllib2
+from urllib import request, error
 import socket # for urllib timeout
 import xml.etree.ElementTree as ET
-import ConfigParser
+import configparser
 
 from submin.auth.decorators import generate_acl_list
 from submin.path.path import Path
@@ -215,7 +215,7 @@ def missing_config_envs(trac_dir):
 			all_options.update(other_options[repostype])
 		all_options['components'] = [(x, 'enabled', True) for x in components]
 
-		for section, option_values in all_options.iteritems():
+		for section, option_values in all_options.items():
 			for option, value, fatal in option_values:
 				if not has_option(config, section, option, value):
 					if section not in missing_options:

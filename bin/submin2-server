@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import sys
@@ -31,7 +31,7 @@ def run():
 	try:
 		httpd.serve_forever()
 	except KeyboardInterrupt:
-		print ': exiting'
+		print (': exiting')
 
 mtimes = {}
 def source_files_changed():
@@ -52,7 +52,7 @@ def run_autoreload():
 	while True:
 		changed = source_files_changed()
 		new_time = old_time = os.path.getmtime(programname)
-		print 'starting WSGI server'
+		print ('starting WSGI server')
 		while True:
 			try:
 				argv = sys.argv[:]
@@ -71,7 +71,7 @@ def run_autoreload():
 					if source_files_changed():
 						break
 				except OSError:
-					print "Could not stat file %s" % programname
+					print("Could not stat file %s" % programname)
 					pass
 
 		except KeyboardInterrupt:
@@ -82,7 +82,7 @@ def run_autoreload():
 
 		# is it ourselves? then restart the whole executable
 		if new_time != old_time:
-			print 'Master file changed, restarting'
+			print ('Master file changed, restarting')
 			while True:
 				try:
 					os.execvpe(programname, sys.argv, os.environ)
@@ -94,5 +94,5 @@ def run_autoreload():
 if '--no-auto-reload' in sys.argv:
 	run()
 else:
-	print 'starting auto-reload server'
+	print ('starting auto-reload server')
 	run_autoreload()

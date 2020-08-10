@@ -21,12 +21,12 @@ class WSGIRequest(Request):
 		self.get = CGIGet(self.__environ['QUERY_STRING'])
 
 		# Mimic CGI behaviour
-		for key, value in self.get.variables.iteritems():
+		for key, value in self.get.variables.items():
 			self.post[key] = value
 
 		if self.__environ.get('HTTP_COOKIE'):
 			self._incookies.load(self.__environ.get('HTTP_COOKIE', ''))
-		self.path_info = unicode(self.__environ.get('PATH_INFO', ''), 'utf-8')
+		self.path_info = str(self.__environ.get('PATH_INFO', ''))
 
 		# When running from stand-alone WSGI-server, we have no Alias.
 		# Instead, we can define part of the URL to be cut so we can

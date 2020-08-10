@@ -41,7 +41,7 @@ def trigger_user_hook(event, **args):
 	cwd = os.getcwd()
 	os.chdir(str(options.env_path()))
 
-	env = dict([(key.upper(), value) for key, value in args.iteritems()
+	env = dict([(key.upper(), value) for key, value in args.items()
 			if value])
 	for hook in user_hooks:
 		try:

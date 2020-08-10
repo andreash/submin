@@ -18,14 +18,14 @@ WRITE_CMDS = [
 
 def run(username):
 	if "SSH_ORIGINAL_COMMAND" not in os.environ:
-		print >>sys.stderr, "No command provided. " \
-				+ "Expected something like git-receive-pack"
+		print ("No command provided. " \
+				+ "Expected something like git-receive-pack", file=sys.stderr)
 		sys.exit(1)
 
 	orig_cmd = os.environ["SSH_ORIGINAL_COMMAND"]
 	if not orig_cmd.startswith("git") or orig_cmd[3] not in (' ', '-'):
-		print >>sys.stderr, "Not a git-command. Expected something like " \
-				+ "git-receive-pack"
+		print ("Not a git-command. Expected something like " \
+				+ "git-receive-pack",file=sys.stderr)
 		sys.exit(1)
 
 	# command is something like `git-receive-pack repo.git'
@@ -43,19 +43,18 @@ def run(username):
 
 	readable_paths = permissions.list_readable_user_paths(repo, "git", u)
 	if not readable_paths:
-		print >>sys.stderr, "Permission denied for %s to user %s" % (repo, u)
+		print ("Permission denied for %s to user %s" % (repo, u),file=sys.stderr)
 		sys.exit(1)
 
 	if sub_cmd not in WRITE_CMDS + READ_CMDS:
-		print >>sys.stderr, "Unrecognized command:", cmd
+		print ("Unrecognized command:", cmd, file=sys.stderr)
 		sys.exit(1)
 	elif sub_cmd in WRITE_CMDS:
 		# check if we have write access
 		writeable_paths = permissions.list_writeable_user_paths(repo, "git", u)
 		if not writeable_paths:
-			print >>sys.stderr, \
-					"Permission denied for writing, for %s to user %s" % \
-					(repo, u)
+			print ("Permission denied for writing, for %s to user %s" % \
+					(repo, u),file=sys.stderr)
 			sys.exit(1)
 
 	# To pass on to the git-hook
@@ -63,8 +62,8 @@ def run(username):
 	os.environ["SUBMIN_REPO"] = repo
 
 	repo_path = repository.directory('git', repo)
-	print >>sys.stderr, "Original command: %s" % orig_cmd
-	print >>sys.stderr, "executing git-%s '%s'" % (sub_cmd, repo_path)
+	print ("Original command: %s" % orig_cmd,file=sys.stderr)
+	print ("executing git-%s '%s'" % (sub_cmd, repo_path),file=sys.stderr) 
 	# XXX: retreive git-path from options.
 	os.execvp('git',
 			['git', 'shell', '-c', "git-%s '%s'" % (sub_cmd, repo_path)])

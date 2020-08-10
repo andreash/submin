@@ -1,6 +1,7 @@
 import cgi # for cgi.FieldStorage/parse_qs etc.
+import logging
 
-from Cookie import SimpleCookie
+from http.cookies import SimpleCookie
 
 # to convert javascript URL encoding to Unicode
 from submin.unicode import uc_url_decode
@@ -26,7 +27,7 @@ class Request(object):
 		self.headers[header] = value
 
 	def setHeaders(self, headers={}):
-		for header, value in headers.iteritems():
+		for header, value in headers.items():
 			self.setHeader(header, value)
 
 	def cookieHeaders(self):
@@ -50,7 +51,7 @@ class Request(object):
 
 	def writeResponse(self, response):
 		self.write('Status: %d\r\n' % response.status_code)
-		for header, value in response.headers.iteritems():
+		for header, value in response.headers.items():
 			self.write('%s: %s\r\n' % (header, value))
 		self.write('\r\n')
 		self.write(response.content)
@@ -119,7 +120,8 @@ class CGIFieldStorage(cgi.FieldStorage):
 	
 	def get(self, name, default=None):
 		value = cgi.FieldStorage.getvalue(self, name, default)
-		return uc_url_decode(value)
+		#return uc_url_decode(value)
+		return value
 
 	def __setitem__(self, name, value):
 		if name in self:

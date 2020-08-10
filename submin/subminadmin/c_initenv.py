@@ -60,7 +60,7 @@ Notes:
 
     def prompt_user(self, prompt, key):
         defval = self.defaults[key]
-        a = raw_input("%s [%s]> " % (prompt, defval))
+        a = input("%s [%s]> " % (prompt, defval))
 
         if a == '':
             self.set_init_var(key, defval)
@@ -70,7 +70,8 @@ Notes:
 
     def set_init_var(self, key, val):
         defval = self.defaults[key]
-        if isinstance(Path(''), type(defval)):
+        if isinstance(defval,Path):
+        #if isinstance(Path(''), type(defval)):
             p = Path(str(val), append_slash=defval.append_slash)
             self.init_vars[key] = p
             return
@@ -78,64 +79,64 @@ Notes:
         self.init_vars[key] = val
 
     def interactive(self):
-        print '''
+        print ('''
 Submin can enable features for you automatically. Please answer which features
 you want to enable. You can choose to enable: 'svn', 'git', 'trac', 'apache'
 and 'nginx'.
-'''
+''')
         self.prompt_user("Which features do you want to enable?",
                 'enable_features')
 
 
         if 'svn' in self.init_vars['enable_features']:
-            print '''
+            print ('''
 Please provide a location for the Subversion repositories. For new Subversion
 repositories, the default setting is ok. If the path is not absolute, it will
 be relative to the submin environment. If you want to use an existing
 repository, please provide the full pathname to the Subversion parent
 directory (ie. /var/lib/svn).
-'''
+''')
             self.prompt_user("Path to the repository?", 'svn_dir')
 
         if 'git' in self.init_vars['enable_features']:
-            print '''
+            print ('''
 Please provide a location for the git repositories. For new git repositories,
 the default setting is ok. If the path is not absolute, it will be relative to
 the submin environment. If you want to use an existing repository, please
 provide the full pathname to the git parent directory (ie. /var/lib/git).
-'''
+''')
             self.prompt_user("Path to the git repositories?", 'git_dir')
 
         if 'trac' in self.init_vars['enable_features']:
-            print '''
+            print ('''
 Please provide a location for the parent dir of Trac environments. For a new
 installation, the default setting is ok. If you don't want to use Trac, the
 default setting is also ok. For existing Trac environments, please provide
 the full path.
-'''
+''')
             self.prompt_user("Path to trac environment?", 'trac_dir')
 
-        print '''
+        print ('''
 Please provide a hostname that can be used to reach the web interface. This
 hostname will be used in communication to the user (a link in email, links
 in the web interface). The hostname should be a FQDN, so instead of 'foo' it
 should be 'foo.example.com'. Please correct if the default is incorrect.
-'''
+''')
         self.prompt_user("Hostname?", 'http_vhost')
 
-        print '''
+        print ('''
 The HTTP path tells Submin where the website is located relative to the root.
 This is needed for proper working of the website. Submin will be accesible
 from <http base>/submin, Subversion will be accessible from <http base>/svn.
 If you use Trac, it will be accessible from <http base>/trac.
-'''
+''')
         self.prompt_user("HTTP base?", 'http_base')
 
-        print '''
+        print ('''
 Submin will send emails for password resets and for commit message (if
 enabled). You can set the sender email address that Submin will use. The
 default might work in some places, but not all.
-'''
+''')
         self.prompt_user("Email from envelope?", 'smtp_from')
         self.init_vars['commit_email_from'] = self.init_vars['smtp_from']
 
@@ -148,7 +149,7 @@ default might work in some places, but not all.
 
     def create_env(self):
         """This is called when all info is gathered"""
-        for key, value in self.defaults.iteritems():
+        for key, value in self.defaults.items():
             if key not in self.init_vars:
                 self.init_vars[key] = value
 
@@ -186,7 +187,7 @@ default might work in some places, but not all.
             'smtp_from': self.init_vars['smtp_from'],
             'commit_email_from': self.init_vars['commit_email_from'],
         }
-        for (key, value) in default_options.iteritems():
+        for (key, value) in default_options.items():
             options.set_value(key, value)
 
         # add a user
@@ -199,8 +200,8 @@ default might work in some places, but not all.
             try:
                 u.prepare_password_reset('submin2-admin')
             except SendEmailError as e:
-                print 'WARNING: Could not send an e-mail, please install a mail server'
-                print 'WARNING: You can request a password reset for "admin" on the login page'
+                print ('WARNING: Could not send an e-mail, please install a mail server')
+                print ('WARNING: You can request a password reset for "admin" on the login page')
 
         self.sa.execute(['upgrade', 'hooks', 'no-fix-unixperms'])
         self.sa.execute(['unixperms', 'fix'])
@@ -220,7 +221,7 @@ default might work in some places, but not all.
 
     def run(self):
         if os.path.exists(str(self.env)):
-            print "Directory already exists, won't overwrite"
+            print ("Directory already exists, won't overwrite")
             return False
 
         if len(self.argv) < 1:
@@ -244,7 +245,7 @@ default might work in some places, but not all.
 
             (key, val) = arg.split('=', 1)
             if key not in self.defaults:
-                print "\nSorry, I don't understand `%s':\n" % key
+                print ("\nSorry, I don't understand `%s':\n" % key)
                 self.sa.execute(['help', 'initenv'])
                 return False
 

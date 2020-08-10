@@ -1,6 +1,5 @@
 import os
 import sys
-import commands
 import errno
 
 from submin.models import options, repository
@@ -63,7 +62,7 @@ def setCommitEmailHook(reponame, enable):
 				raise
 
 		try:
-			with file(hook_dest, 'w') as f:
+			with open(hook_dest, 'w') as f:
 				f.write(hook)
 
 			os.chmod(hook_dest, 0o755)
@@ -113,7 +112,7 @@ def setTracSyncHook(reponame, enable):
 		'hook_version': HOOK_VERSIONS['trac-sync'],
 	}
 	contents = evaluate('plugins/vcs/git/trac-sync', variables)
-	with file(hook, 'w') as f:
+	with open(hook, 'w') as f:
 		f.writelines(contents)
 
 	os.chmod(hook, 0o755)

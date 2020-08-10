@@ -68,12 +68,12 @@ Usage:
 		submin_wsgi = evaluate('subminadmin/nginx-webui-wsgi.conf', self.init_vars)
 		uwsgi_ini = evaluate('subminadmin/uwsgi-webui.ini', self.init_vars)
 
-		file(fname_submin_wsgi, 'w').write(header_webui + submin_wsgi)
-		file(fname_uwsgi_ini, 'w').write(uwsgi_ini)
-		print 'Nginx files created:\n', "\n".join([fname_submin_wsgi, fname_uwsgi_ini])
+		open(fname_submin_wsgi, 'w').write(header_webui + submin_wsgi)
+		open(fname_uwsgi_ini, 'w').write(uwsgi_ini)
+		print ('Nginx files created:\n', "\n".join([fname_submin_wsgi, fname_uwsgi_ini]))
 
-		print '''
-   Please include the relevent .conf files in your NGINX config.'''
+		print ('''
+   Please include the relevent .conf files in your NGINX config.''')
 
 	def urlpath(self, url):
 		"""Strip scheme and hostname from url, leaving only the path. Also

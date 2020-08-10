@@ -1,5 +1,5 @@
 import os
-import urllib2
+from urllib import request, error
 import re
 
 from submin.models import options

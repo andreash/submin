@@ -18,17 +18,17 @@ Usage:
 			try:
 				instance = self.sa.cmd_instance(cmd, [])
 			except StorageError:
-				print "This module needs a submin environment to show help"
+				print ("This module needs a submin environment to show help")
 				return
 
 			if instance:
 				docs = instance.__doc__.split('\n', 1)
-				print docs[1]
+				print (docs[1])
 				print
 			else:
-				print "No help available on unknown command"
+				print ("No help available on unknown command")
 		else:
-			print "Commands:"
+			print ("Commands:")
 			cmds = self.sa.commands()
 			for cmd in cmds:
 				try:
@@ -43,7 +43,7 @@ Usage:
 					else:
 						docs = instance.__doc__.split('\n', 1)[0]
 
-				print "  %-10s - %s" % (cmd, docs)
-			print """
+				print ("  %-10s - %s" % (cmd, docs))
+			print ("""
 Use 'help [command]' to get more information on that command
-"""
+""")

@@ -35,7 +35,7 @@ Usage:
 			self.sa.execute(['help', 'apacheconf'])
 			return
 
-		for key, value in self.defaults.iteritems():
+		for key, value in self.defaults.items():
 			self.init_vars[key] = value
 
 		self._apache_conf_create()
@@ -78,19 +78,19 @@ Usage:
 		template = 'subminadmin/apache-%s.conf'
 		for name in generate_configs:
 			fname = basename % name
-			file(fname, 'w').write(evaluate(template % name, self.init_vars))
+			open(fname, 'w').write(evaluate(template % name, self.init_vars))
 			generated.append(fname)
 
 		basename = str(self.env + 'conf' + 'apache-2.4-%s.conf')
 		self.init_vars['apache_2_4'] = True
 		for name in generate_configs:
 			fname = basename % name
-			file(fname, 'w').write(evaluate(template % name, self.init_vars))
+			open(fname, 'w').write(evaluate(template % name, self.init_vars))
 			generated.append(fname)
 
-		print 'Apache files created:\n', '\n'.join(generated)
+		print ('Apache files created:\n', '\n'.join(generated))
 
-		print '''
+		print ('''
    Please include ONE of the -webui- files and optionally -trac- and -svn-
    files (if you need/want that functionality). The -trac-no-anonymous.conf
    file can be used together with ONE other trac config file. The -2.4- files
@@ -99,7 +99,7 @@ Usage:
    Hint: cgi is simpler, but performs worse.
 
    Please read the instructions in the file for caveats and on how to include!
-'''
+''')
 
 	def urlpath(self, url):
 		"""Strip scheme and hostname from url, leaving only the path. Also

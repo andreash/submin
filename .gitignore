@@ -16,3 +16,5 @@
 /dev/coverage-annotate
 *.pyc
 *.swp
+test.py
+test1.py

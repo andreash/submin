@@ -36,8 +36,8 @@ Usage:
 			try:
 				mkdirs(str(directory), mode=0o700)
 			except OSError as e:
-				print 'making dir %s failed, do you have permissions?' % \
-						str(directory)
+				print ('making dir %s failed, do you have permissions?' % \
+						str(directory))
 				raise e
 
 	def remove_system_hooks(self):
@@ -48,8 +48,8 @@ Usage:
 			try:
 				os.unlink(script)
 			except OSError as e:
-				print 'updating hook %s failed, do you have permissions?' % \
-						script
+				print ('updating hook %s failed, do you have permissions?' % \
+						script)
 				raise e
 
 	def copy_system_hooks(self, event_dir):
@@ -61,8 +61,8 @@ Usage:
 			try:
 				shutil.copy(script, str(env_event_dir))
 			except IOError as e:
-				print 'updating hook %s failed, do you have permissions?' % \
-						script
+				print ('updating hook %s failed, do you have permissions?' % \
+						script)
 
 	def subcmd_database(self, argv):
 		from submin.models import storage

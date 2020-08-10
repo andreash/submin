@@ -27,7 +27,7 @@ Usage:
 
 	def _printkeyvalue(self, key, value, width):
 		formatstring = "%%-%us %%s" % (width + 1)
-		print formatstring % (key, value)
+		print (formatstring % (key, value))
 
 	def subcmd_get(self, argv):
 		from submin.models import options
@@ -37,7 +37,7 @@ Usage:
 			try:
 				value = options.value(argv[0])
 			except UnknownKeyError as e:
-				print 'ERROR: %s does not exist' % argv[0]
+				print ('ERROR: %s does not exist' % argv[0])
 			else:
 				self._printkeyvalue(argv[0], value, len(argv[0]))
 		else:
@@ -94,7 +94,7 @@ sqlite_path = os.path.join(os.path.dirname(__file__), "submin.db")
 		dirname = os.path.dirname(filename)
 		mkdirs(dirname)
 
-		file(filename, 'w').write(submin_settings)
+		open(filename, 'w').write(submin_settings)
 
 		# after writing the bootstrap file, we setup all models
 		self.sa.ensure_storage()
@@ -122,7 +122,7 @@ sqlite_path = os.path.join(os.path.dirname(__file__), "submin.db")
 			'env_path': '/bin:/usr/bin:/usr/local/bin:/opt/local/bin',
 			'vcs_plugins': 'git,svn',
 		}
-		for (key, value) in default_options.iteritems():
+		for (key, value) in default_options.items():
 			options.set_value(key, value)
 		self.generate_cgi()
 

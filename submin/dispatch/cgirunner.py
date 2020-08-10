@@ -9,8 +9,8 @@ def run():
 	from submin.bootstrap import SubminInstallationCheck
 	check = SubminInstallationCheck(submin_dir)
 	if not check.ok:
-		print "Status: 500\r\n\r\n",
-		print check.error_page()
+		print ("Status: 500\r\n\r\n"),
+		print (check.error_page())
 		sys.exit(0)
 
 	from submin.models import storage
@@ -28,7 +28,7 @@ def run():
 		trace = traceback.extract_tb(sys.exc_info()[2])
 		list = traceback.format_list(trace)
 		list.append(str(e))
-		print "Status: 500\r\n\r\n",
-		print ''.join(list)
+		print ("Status: 500\r\n\r\n"),
+		print (''.join(list))
 
 	storage.close()

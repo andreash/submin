@@ -160,7 +160,7 @@ class RepositoryTests(unittest.TestCase):
 
 		r = repository.Repository('foo', 'svn')
 		r.enableCommitEmails(enable=True)
-		hook = ''.join(file(hook_fname, 'r').readlines())
+		hook = ''.join(open(hook_fname, 'r').readlines())
 		self.assertTrue('### SUBMIN AUTOCONFIG, DO NOT ALTER FOLLOWING LINE ###' in hook)
 		self.assertTrue('mailer.py.conf' in hook)
 
@@ -170,15 +170,15 @@ class RepositoryTests(unittest.TestCase):
 # just a comment
 '''
 		hook_fname = os.path.join(self.svn_dir, 'foo', 'hooks', 'post-commit')
-		file(hook_fname, 'w').write(expected_hook)
+		open(hook_fname, 'w').write(expected_hook)
 
 		r = repository.Repository('foo', 'svn')
 		r.enableCommitEmails(enable=True)
-		hook = ''.join(file(hook_fname, 'r').readlines())
+		hook = ''.join(open(hook_fname, 'r').readlines())
 		self.assertTrue('# just a comment' in hook)
 		self.assertTrue('mailer.py.conf' in hook)
 		r.enableCommitEmails(enable=False)
-		hook = ''.join(file(hook_fname, 'r').readlines())
+		hook = ''.join(open(hook_fname, 'r').readlines())
 		self.assertEquals(hook, expected_hook)
 
 	def testNotificationsEnabled(self):

@@ -38,7 +38,7 @@ Usage:
 			'session_salt': ('generated', 'session_salt'),
 			'env_path': ('backend', 'path'),
 		}
-		for (key, section_option) in cfg.iteritems():
+		for (key, section_option) in cfg.items():
 			try:
 				value = config.get(section_option[0], section_option[1])
 				options.set_value(key, value)
@@ -56,7 +56,7 @@ Usage:
 		userprop_file = config.get('svn', 'userprop_file')
 
 		# read files
-		htpasswd = file(htpasswd_file).readlines()
+		htpasswd = open(htpasswd_file).readlines()
 		userprop = self.read_ini(userprop_file)
 
 		from submin.models.user import FakeAdminUser
@@ -165,7 +165,7 @@ Usage:
 					permissions.add(repository, "svn", path, name,
 							name_type, permission)
 				except DoesNotExistError:
-					print "Could not add permissions for repository %s, skipping" % repository
+					print ("Could not add permissions for repository %s, skipping" % repository)
 
 	def convert(self, old_config_file):
 		config = self.read_ini(old_config_file)

@@ -1,6 +1,7 @@
 import os, sys
 
 def fimport(filename, fromlist=[]):
+    print ("File %s" % filename,file=sys.stderr)
     return __import__(filename, globals(), locals(), fromlist)
 
 class SettingsException(Exception):
@@ -74,7 +75,7 @@ class SubminInstallationCheck(object):
     def error_page(self):
         from .template.template import Template
         fname = os.path.join(self.submin_dir, 'static', 'templates', 'error_config.html')
-        fp = file(fname, 'r')
+        fp = open(fname, 'r')
         variables = {
             'new_env': self.new_env,
             'old_env': self.old_env,

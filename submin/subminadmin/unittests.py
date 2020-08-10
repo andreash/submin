@@ -29,7 +29,7 @@ class SubminAdminApacheConfTests(unittest.TestCase):
 		cls.tmpdir = tempfile.mkdtemp(prefix='submin-unittest')
 		conf_dir = os.path.join(cls.tmpdir, 'conf')
 		os.mkdir(conf_dir)
-		file(os.path.join(conf_dir, 'settings.py'), 'w').writelines(
+		open(os.path.join(conf_dir, 'settings.py'), 'w').writelines(
 		"""import os
 storage = "sql"
 sqlite_path = os.path.join(os.path.dirname(__file__), "submin.db")

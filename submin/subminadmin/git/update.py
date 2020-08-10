@@ -16,7 +16,7 @@ def run():
 		try:
 			# create dir and file if one of them doesn't exist
 			os.mkdir(os.path.dirname(filename))
-			file(filename, 'a')
+			open(filename, 'a')
 		except OSError as e:
 			if e.errno != errno.EACCES:
 				raise
