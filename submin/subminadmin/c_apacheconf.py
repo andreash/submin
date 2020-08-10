@@ -74,12 +74,13 @@ Usage:
 			'trac-no-anonymous'
 		]
 		generated = []
-		basename = str(self.env + 'conf' + 'apache-%s.conf')
-		template = 'subminadmin/apache-%s.conf'
-		for name in generate_configs:
-			fname = basename % name
-			open(fname, 'w').write(evaluate(template % name, self.init_vars))
-			generated.append(fname)
+        # Apache 1.x is not supported any more, so we can leave this out.
+		#basename = str(self.env + 'conf' + 'apache-%s.conf')
+		#template = 'subminadmin/apache-%s.conf'
+		#for name in generate_configs:
+	    #	fname = basename % name
+		#	open(fname, 'w').write(evaluate(template % name, self.init_vars))
+		#	generated.append(fname)
 
 		basename = str(self.env + 'conf' + 'apache-2.4-%s.conf')
 		self.init_vars['apache_2_4'] = True
