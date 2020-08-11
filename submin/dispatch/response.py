@@ -1,4 +1,4 @@
-import urlparse
+import urllib.parse
 from submin.models import options
 
 class Response(object):
@@ -15,7 +15,7 @@ class Response(object):
 		self.headers['Set-Cookie'] = cookies
 
 	def encode_content(self):
-		return ''.join(self.content.encode('utf-8'))
+		return ''.join(self.content)
 
 class FileResponse(Response):
 	def __init__(self, content, content_type):
@@ -35,7 +35,7 @@ class Redirect(Response):
 		if not store_url and 'redirected_from' in request.session:
 			del request.session['redirected_from']
 
-		url = unicode(url)
+		url = str(url)
 		self.status_code = 302
 		if '://' not in url:
 			vhost = options.value("http_vhost")
@@ -44,9 +44,9 @@ class Redirect(Response):
 
 			# to prevent accidental double slashes to be interpreted as netloc,
 			# we strip all leading slashes from the url
-			url = urlparse.urljoin(vhost, url.lstrip('/'))
+			url = urllib.parse.urljoin(vhost, url.lstrip('/'))
 
-		self.headers.update({'Location': url.encode('utf-8')})
+		self.headers.update({'Location': url})
 
 class HTTP404(Response):
 	def __init__(self, page='/'):

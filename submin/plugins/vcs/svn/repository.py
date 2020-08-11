@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-import commands
-import exceptions
+import subprocess
+from functools import cmp_to_key
 
 from submin.path.path import Path
 from submin.unicode import uc_str, uc_to_svn, uc_from_svn
@@ -44,12 +44,12 @@ def _repositoriesOnDisk():
 	import glob, os.path
 	reposdir = options.env_path('svn_dir')
 	repositories = []
-	if not os.path.exists(reposdir):
+	if not os.path.lexists(reposdir):
 		return []
 
 	for rep in os.listdir(reposdir):
 		if os.path.isdir((reposdir + rep).encode('utf-8')):
-			repositories.append(uc_str(rep))
+			repositories.append(rep)
 
 	return repositories
 
@@ -58,7 +58,7 @@ def add(name):
 	newrepos = reposdir + name
 	path = options.value('env_path', "/bin:/usr/bin:/usr/local/bin:/opt/local/bin")
 	cmd = "PATH='%s' svnadmin create '%s'" % (path, str(newrepos))
-	(exitstatus, outtext) = commands.getstatusoutput(cmd)
+	(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 	if exitstatus != 0:
 		raise PermissionError("External command 'svnadmin' failed: %s" % outtext)
 
@@ -119,8 +119,7 @@ It is converted to UTF-8 (or other?) somewhere in the dispatcher."""
 				entry['name'] = f['name']
 				entry['has_subdirs'] = hassubdirs
 				dirs.append(entry)
-
-		dirs.sort(lambda a, b: cmp(unicode.lower(a['name']), unicode.lower(b['name'])))
+		dirs.sort(key = cmp_to_key(lambda a, b: a['name'].lower() > b['name'].lower()))
 		return dirs
 
 	def get_entries(self, path):
@@ -147,28 +146,28 @@ It is converted to UTF-8 (or other?) somewhere in the dispatcher."""
 
 		fs_ptr = repos.svn_repos_fs(repository)
 
-		path_utf8 = uc_to_svn(uc_str(path))
+		path_utf8 = path
 		youngest_revision_number = fs.youngest_rev(fs_ptr)
 		try:
 			root = fs.revision_root(fs_ptr, youngest_revision_number)
 		except SubversionException as e:
 			raise PermissionError
 
-		entries = fs.dir_entries(root, path_utf8)
+		entries = fs.dir_entries(root, path_utf8) # returns list of bytes-strings
 
 		dirs = []
 		for entry in entries.keys():
+			entry_utf8 = entry.decode('utf-8')
 			d = {}
-			node_type = fs.check_path(root, os.path.join(path_utf8, entry))
+			node_type = fs.check_path(root, os.path.join(path_utf8, entry_utf8))
 			if (node_type == core.svn_node_dir):
 				d['kind'] = 'dir'
 			elif (node_type == core.svn_node_file):
 				d['kind'] = 'file'
 			else:
 				d['kind'] = 'unknown'
-			d['name'] = uc_from_svn(entry)
+			d['name'] = entry_utf8
 			dirs.append(d)
-
 		return dirs
 
 	def hassubdirs(self, path):
@@ -234,7 +233,7 @@ It is converted to UTF-8 (or other?) somewhere in the dispatcher."""
 			raise Exception("Error, repository path is relative, this should be fixed")
 
 		cmd = 'rm -rf "%s"' % newrepos
-		(exitstatus, outtext) = commands.getstatusoutput(cmd)
+		(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 		if exitstatus != 0:
 			raise Exception("could not remove repository %s" % self.name)
 

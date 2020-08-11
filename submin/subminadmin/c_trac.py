@@ -1,6 +1,5 @@
 import os
 import sys
-import commands
 import shutil
 import re
 
@@ -39,11 +38,11 @@ Usage:
 		tmp_deploy_dir = tmp_trac_dir + 'deploy'
 
 		if not trac.exists():
-			print "Could not find 'trac-admin' command. If you want to use Trac, please",
-			print "install trac and run: `submin2-admin %s trac init`" % options.env_path()
+			print ("Could not find 'trac-admin' command. If you want to use Trac, please"),
+			print ("install trac and run: `submin2-admin %s trac init`" % options.env_path())
 			return
 
-		print 'Initializing trac files. This might take a while, please wait ...'
+		print ('Initializing trac files. This might take a while, please wait ...')
 		# first, create a temp trac env, because 'deploy' needs a working trac
 		# env (sigh)
 		trac.initenv(str(tmp_trac_dir), 'dummy', 'svn', '/tmp/non-existing')
@@ -64,7 +63,7 @@ Usage:
 
 		# finally, set all permissions and ownerships
 		self.sa.execute(['unixperms', 'fix'])
-		print 'Done.'
+		print ('Done.')
 		return
 
 	def subcmd_hook(self, argv):
@@ -75,15 +74,16 @@ Usage:
 		from submin.models import hookjobs
 		from submin.models import options
 		from submin.subminadmin import trac
-		import urllib2
+		#import urllib2
+		from urllib import request, error
 
 		if argv[0] != 'queue' or len(argv) != 4:
-			print 'Unknown command'
+			print ('Unknown command')
 			return
 
 		vcs_type, repository, hooktype = argv[1:]
 		content = ''.join(sys.stdin.readlines())
-		print 'Notifying Trac of changes...'
+		print ('Notifying Trac of changes...')
 		if hooktype == 'trac-sync' and 'refs/tags' in content:
 			print('Skipping tag (no sync needed)')
 			return

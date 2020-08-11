@@ -5,17 +5,16 @@ import re
 
 def uc_str(obj, encoding='utf-8', errors='replace'):
 	if isinstance(obj, str):
-		return unicode(obj, encoding, errors)
-	if isinstance(obj, unicode):
 		return obj
-
-	return unicode(str(obj), encoding, errors)
+	if isinstance(obj, bytes):
+		return obj.decode('utf-8',errors)
+	return str(obj)
 
 def _url_uc_to_uc_callback(matchobj):
 	"""Convert characters to utf-8"""
 	s = matchobj.group(0).encode('utf-8')
 	u = s.replace("%", "\\")
-	return unicode(u, 'unicode_escape')
+	return str(u).encode('unicode_escape')
 
 def uc_url_decode(s):
 	"""Convert expressions like '%uFFFF' to '\\uFFFF' and encode as unicode.

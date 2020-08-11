@@ -5,7 +5,7 @@ binary = '/usr/sbin/sendmail'
 
 def send(sender, receiver, message):
 	p = os.popen("%s -t" % (binary), 'w')
-	p.write(message)
+	p.write(message.decode('utf-8'))
 	exitcode = p.close()
 	if exitcode:
 		raise SendEmailError

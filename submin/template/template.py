@@ -53,7 +53,7 @@ class TextNode(Node):
 		if pn and pn.suppress_newline and newline:
 			content = content[1:]
 
-		return unicode(content)
+		return str(content)
 	
 	def __str__(self):
 		return '<text %r>' % self.content
@@ -85,9 +85,9 @@ class CommandNode(Node):
 				return str(value)
 			# coerce anything else to unicode
 			try:
-				return unicode(value)
+				return str(value)
 			except UnicodeDecodeError:
-				return unicode(value, 'utf-8')
+				return str(value, 'utf-8')
 		raise UnknownCommandError(self.command)
 	
 	def __str__(self):

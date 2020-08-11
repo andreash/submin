@@ -57,10 +57,11 @@ class Path(superclass):
 			other = other.decode('utf-8')
 
 		joined = os.path.join(superclass(self), other)
-		return Path(joined, append_slash=self.append_slash, absolute=self.absolute)
+		result = Path(joined, append_slash=self.append_slash, absolute=self.absolute)
+		return result
 
 	def __add__(self, other):
 		return self.join(other)
 
-	def __str__(self):
-		return self.encode('utf-8')
+	#def __str__(self):
+    #		return self.encode('utf-8')

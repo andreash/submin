@@ -40,7 +40,7 @@ def apache_modules():
 		else:
 			errormsgs.append('')
 
-			for line in output.split('\n'):
+			for line in output.decode('utf-8').split('\n'):
 				if line.endswith('(shared)') or line.endswith('(static)'):
 					module = line.strip().split(' ')[0]
 					modules.append(module.replace('_module', ''))
