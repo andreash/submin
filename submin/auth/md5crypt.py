@@ -11,23 +11,30 @@ from hashlib import md5
 import random
 
 def md5crypt(password, salt, magic='$1$'):
-    # /* The password first, since that is what is most unknown */ /* Then our magic string */ /* Then the raw salt */
+    password = password.encode('utf-8')
+    salt = salt.encode('utf-8')
+    magic = magic.encode('utf-8')
+
+    #  The password first, since that is what is most unknown
+    #  Then our magic string
+    #  Then the raw salt
     m = md5()
     m.update(password + magic + salt)
 
     # /* Then just as many characters of the MD5(pw,salt,pw) */
     mixin = md5(password + salt + password).digest()
     for i in range(0, len(password)):
-        m.update(mixin[i % 16])
+        c = mixin[(i % 16):(i % 16)+1]
+        m.update(c)
 
     # /* Then something really weird... */
     # Also really broken, as far as I can tell.  -m
     i = len(password)
     while i:
         if i & 1:
-            m.update('\x00')
+            m.update('\x00'.encode('utf-8'))
         else:
-            m.update(password[0])
+            m.update(password[0:1])
         i >>= 1
 
     final = m.digest()
@@ -58,15 +65,15 @@ def md5crypt(password, salt, magic='$1$'):
 
     rearranged = ''
     for a, b, c in ((0, 6, 12), (1, 7, 13), (2, 8, 14), (3, 9, 15), (4, 10, 5)):
-        v = ord(final[a]) << 16 | ord(final[b]) << 8 | ord(final[c])
+        v = final[a] << 16 | final[b] << 8 | final[c]
         for i in range(4):
             rearranged += itoa64[v & 0x3f]; v >>= 6
 
-    v = ord(final[11])
+    v = final[11]
     for i in range(2):
         rearranged += itoa64[v & 0x3f]; v >>= 6
 
-    return magic + salt + '$' + rearranged 
+    return magic.decode('utf-8') + salt.decode('utf-8') + '$' + rearranged 
 
 # END original file
 
