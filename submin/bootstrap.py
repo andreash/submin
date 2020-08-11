@@ -1,4 +1,5 @@
 import os, sys
+from importlib import import_module
 
 def fimport(filename, fromlist=[]):
     print ("File %s" % filename,file=sys.stderr)
@@ -26,7 +27,7 @@ class Settings(object):
         sys.path.insert(0, os.path.join(base_dir, 'conf'))
 
         try:
-            self.setSettings(fimport('settings'))
+            self.setSettings(import_module('settings'))
         except ImportError as e:
             raise SettingsException('Could not load settings: file does not ' +
                 'exist or insufficient permissions')

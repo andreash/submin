@@ -1,3 +1,4 @@
+from importlib import import_module
 from submin.bootstrap import fimport, settings, SettingsException, setSettings
 from submin.models.exceptions import StorageAlreadySetup, StorageError
 
@@ -20,8 +21,7 @@ def database_evolve(*args, **kwargs):
 	database yet."""
 	# Calls plugins.storage.<storage>.database_evolve()
 	try:
-		storage_module = fimport("submin.plugins.storage.%s" % settings.storage,
-				"submin.plugins.storage")
+		storage_module = import_module("submin.plugins.storage.%s" % settings.storage, "submin.plugins.storage")
 		storage_module.database_backup(settings)
 		storage_module.database_evolve(*args, **kwargs)
 	except SettingsException as e:
@@ -29,8 +29,7 @@ def database_evolve(*args, **kwargs):
 
 def database_isuptodate():
 	try:
-		return fimport("submin.plugins.storage.%s" % settings.storage,
-				"submin.plugins.storage").database_isuptodate()
+		return import_module("submin.plugins.storage.%s" % settings.storage, "submin.plugins.storage").database_isuptodate()		                
 	except SettingsException as e:
 		raise StorageError(str(e))
 
@@ -42,8 +41,7 @@ def open(pass_settings=None):
 		setSettings(pass_settings)
 
 	try:
-		opened_module = fimport("submin.plugins.storage.%s" % settings.storage,
-				"submin.plugins.storage")
+		opened_module = import_module("submin.plugins.storage.%s" % settings.storage, "submin.plugins.storage")
 		opened_module.open(settings)
 	except SettingsException as e:
 		raise StorageError(str(e))

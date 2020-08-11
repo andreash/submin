@@ -165,7 +165,7 @@ class CommitHook:
                     func = getattr(self, funcname)
                     tickets.setdefault(tkt_id, []).append(func)
 
-        for tkt_id, cmds in tickets.iteritems():
+        for tkt_id, cmds in tickets.items():
             try:
                 db = self.env.get_db_cnx()
                 
@@ -202,8 +202,8 @@ class CommitHook:
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:
-        print "For usage: %s --help" % (sys.argv[0])
-        print
-        print "Note that the deprecated options will be removed in Trac 0.12."
+        print ("For usage: %s --help" % (sys.argv[0]))
+        print ()
+        print ("Note that the deprecated options will be removed in Trac 0.12.")
     else:
         CommitHook()

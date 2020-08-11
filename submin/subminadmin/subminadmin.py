@@ -96,14 +96,14 @@ with the help command for now.
 		return self.execute(self.argv[2:])
 
 	def interactive(self):
-		print '''Welcome to submin2-admin - Submin %s
+		print ('''Welcome to submin2-admin - Submin %s
 Interactive Submin administration console.
 
 Use '?' or 'help' for help on commands.
-''' % (submin_version,)
+''' % (submin_version,))
 		while not self.quit:
 			try:
-				argv = raw_input(self.prompt).split()
+				argv = input(self.prompt).split()
 			except (EOFError, KeyboardInterrupt):
 				print
 				return
@@ -112,19 +112,19 @@ Use '?' or 'help' for help on commands.
 				self.execute(argv)
 			except SubminAdminCmdException as e:
 				# print the error and continue (interactive mode)
-				print >>sys.stderr, str(e)
+				print (str(e),file=sys.stderr)
 
 		return True
 
 	def cmd_instance(self, cmd, argv, print_error=True):
 		objname = "c_" + cmd
 		try:
-			X = __import__(objname, globals())
+			X = __import__("submin.subminadmin."+objname,fromlist=["submin.subminadmin."+objname])
 			instance = getattr(X, objname)(self, argv)
 			return instance
 		except (ImportError, AttributeError) as e:
 			if print_error:
-				print "Error while executing command %s:" % cmd, str(e)
+				print ("Error while executing command %s:" % cmd, str(e))
 			return None
 
 	def commands(self):
@@ -158,13 +158,13 @@ Use '?' or 'help' for help on commands.
 		cmd = self.cmd_alias(argv[0])
 		Class = self.cmd_instance(cmd, argv[1:])
 		if not Class:
-			print "Unknown command: %s" % ' '.join(argv)
+			print ("Unknown command: %s" % ' '.join(argv))
 			return False
 
 		if not self.storage_opened:
 			if not hasattr(Class, "needs_env") or Class.needs_env:
 				if not os.path.exists(self.env):
-					print 'environment does not exist, use initenv'
+					print ('environment does not exist, use initenv')
 					return True
 
 				self.ensure_storage()
@@ -188,5 +188,5 @@ Use '?' or 'help' for help on commands.
 
 	def usage(self):
 		print("Submin %s" % (submin_version,))
-		print "Usage: %s </path/to/projenv> [command [subcommand] [option]]" \
-				% self.argv[0]
+		print ("Usage: %s </path/to/projenv> [command [subcommand] [option]]" \
+				% self.argv[0])
