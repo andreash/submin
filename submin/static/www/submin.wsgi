@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import os
 import sys
 import inspect
@@ -10,6 +10,12 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir) #static
 basedir = os.path.dirname(os.path.dirname(parentdir)) #submin
 sys.path.insert(0,basedir) 
+
+logging.basicConfig(filename='/tmp/example.log',level=logging.DEBUG)
+
+
+svndir = os.path.dirname(basedir)+"/swig-py3/subversion/bindings/swig/python"
+sys.path.insert(0,svndir) 
 
 try:
     import uwsgi
@@ -44,10 +50,19 @@ def application(environ, start_response):
     try:
         from submin.dispatch.wsgirequest import WSGIRequest
         from submin.dispatch.dispatcher import dispatcher
-
         req = WSGIRequest(environ)
         response = dispatcher(req)
-        start_response(response.status(), response.headers.items())
+        headers = []
+        for k,v in response.headers.items():
+            item = (k,v)            
+            headers.append(item)
+
+        #response.headers = [
+        #    ('Content-Type','text/html; charset=utf-8'),
+        #    ('Set-Cookie','SubminSessionID=8620c46216126cca44edd2b33dba5b1c; expires=Sun, 16 Aug 2020 12:44:52 -0000; Path=/submin2/ah')    
+        #]
+        response.headers = headers
+        start_response(response.status(), response.headers)
         content = response.encode_content()
     except Exception as e:
         import traceback
@@ -58,4 +73,4 @@ def application(environ, start_response):
         content = ''.join(list)
     
     storage.close()
-    return content
+    return bytes(content,'utf-8')
