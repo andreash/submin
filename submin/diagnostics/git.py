@@ -78,7 +78,7 @@ def git_dir_wrong_perms():
 	git_dir = options.env_path("git_dir")
 	try:
 		git_user = pwd.getpwnam(options.value("git_user"))
-	except UnknownKeyError:
+	except KeyError:
 		return []
 
 	apache = www_user()
@@ -106,7 +106,11 @@ def git_dir_wrong_perms():
 def git_repos_wrong_perms(git_dir):
 	bad_dirs = []
 	ssh_dir = git_dir + '.ssh'
-	git_user = pwd.getpwnam(options.value('git_user'))
+	try:
+	    git_user = pwd.getpwnam(options.value('git_user'))
+	except KeyError:
+		return []
+        
 	apache = www_user()
 	for root, dirs, files in os.walk(git_dir.encode('utf-8')):
 		for d in dirs:

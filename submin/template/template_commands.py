@@ -136,8 +136,8 @@ def iter(node, tpl):
 	
 	# check if variable is iterable
 	try:
-		import __builtin__ # we need this because this function is also called 'iter'
-		it = __builtin__.iter(value)
+		import builtins # we need this because this function is also called 'iter'
+		it = builtins.iter(value)
 	except TypeError:
 		raise VariableNotIterable(
 			'Variable "%s" not iterable in template "%s", at line %d' %
@@ -147,7 +147,7 @@ def iter(node, tpl):
 	for index, item in enumerate(value):
 		tpl.node_variables['iindex'][-1] = index
 		tpl.node_variables['ikey'][-1] = item
-		if not isinstance(value, DictType):
+		if not isinstance(value, dict):
 			tpl.node_variables['ival'][-1] = item
 		else:
 			tpl.node_variables['ival'][-1] = value[item]

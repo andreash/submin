@@ -1,7 +1,7 @@
-import rfc822
+import email
 import time
 import os
-import thread
+import _thread
 import json
 from hashlib import md5
 
@@ -181,7 +181,7 @@ class Session(SESS_CLASS):
 	def destroy(self):
 		self.__destroyed = True
 		self.request.setCookie('SubminSessionID', 'xx',
-				expires=rfc822.formatdate(0))
+				expires=email.utils.formatdate(0))
 
 	def destroyed(self):
 		return self.__destroyed or self.sessionid == 'xx'
@@ -198,11 +198,11 @@ class Session(SESS_CLASS):
 				base_url = '/'
 
 		self.request.setCookie('SubminSessionID', self.sessionid, \
-			str(base_url), expires=rfc822.formatdate(self.expires))
+			str(base_url), expires=email.utils.formatdate(self.expires))
 
 	def generateSessionID(self):
 		"""Really an MD5-sum of the current time and a salt"""
 		from submin.models import options
 		salt = options.value('session_salt')
-		return md5(salt + \
-				md5(str(time.time())).hexdigest()).hexdigest()
+		val = md5(str(time.time()).encode('utf-8')).hexdigest()
+		return md5((salt + val).encode('utf-8')).hexdigest()
