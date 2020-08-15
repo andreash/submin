@@ -49,7 +49,7 @@ function resize_content_div()
 	if (!content)
 		return;
 
-	var width = WindowWidth() - 200;
+	var width = WindowWidth() - 275;
 	content.style.width = width + 'px';
 
 	var repostree = document.getElementById('repostree');
@@ -60,7 +60,7 @@ function resize_content_div()
 	if (repostree)
 		repostree.style.width = width + 'px';
 	if (permissions_editor)
-		permissions_editor.style.width = width + 'px';
+		permissions_editor.style.width = (width-20) + 'px';
 }
 
 function repostree_getnode(me)

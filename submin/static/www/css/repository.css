@@ -44,7 +44,8 @@ div#repostree {
 }
 
 div#permissions-editor {
-	float: right;
+    /*float: right; */
+    box-sizing: border-box;
 	width: 40%; /* overwritten by www/js/repostree.js: resize_content_div() */
 	border: 1px solid #C0CDED;
 	overflow: auto;
