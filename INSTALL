@@ -13,8 +13,8 @@ Table of Contents
 Prerequisites
 =============
 
-Submin is tested with Python 2.x exclusively, it probably does not (yet) work
-with Python 3.x. If you have fixes for 3.x, please let us know.
+Submin-3 is tested with Python 3.x exclusively, it probably does not (yet) work
+with Python 2.x. If you have fixes for 3.x, please let us know.
 
 Depending on your choices, you also need either git or subversion, and
 optionally trac for ticket supports.
