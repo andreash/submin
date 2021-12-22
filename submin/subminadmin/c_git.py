@@ -76,7 +76,7 @@ Usage:
         if len(args) < 1:
             die("user")
         from submin.subminadmin import git
-        git.user.run(unicode(args[0], 'utf-8'))
+        git.user.run(args[0])
 
     def subcmd_admin(self, args):
         if 'SSH_ORIGINAL_COMMAND' not in os.environ:
@@ -314,7 +314,7 @@ Usage:
         from submin.subminadmin import git
         reponame = None
         if len(args) > 1:
-            reponame = unicode(args[1], 'utf-8')
+            reponame = args[1]
             if reponame.endswith('.git'):
                 reponame = reponame[:-4]
 

@@ -32,7 +32,7 @@ def _repositoriesOnDisk():
 	for rep in reps:
 		if os.path.isdir(rep):
 			name = rep[rep.rfind('/') + 1:]
-			repositories.append(unicode(name, 'utf-8'))
+			repositories.append(name)
 
 	return repositories
 

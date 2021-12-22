@@ -1,5 +1,5 @@
 import os
-
+import subprocess
 from submin.common.osutils import mkdirs
 
 def create_dir(env, directory):
@@ -26,7 +26,7 @@ class CmdException(Exception):
 		self.cmd = cmd
 
 def executeCmd(cmd, usermsg=""):
-	(exitstatus, outtext) = commands.getstatusoutput(cmd)
+	(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 	if exitstatus != 0:
 		raise CmdException(usermsg, outtext, cmd)
 

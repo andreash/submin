@@ -33,11 +33,11 @@ class OptionTests(unittest.TestCase):
 
 	def testPath(self):
 		options.set_value("foo", "bar")
-		self.assertEquals(unicode(options.env_path("foo")), "/submin/bar")
+		self.assertEquals(options.env_path("foo"), "/submin/bar")
 
 	def testAbsolutePath(self):
 		options.set_value("foo", "/bar")
-		self.assertEquals(unicode(options.env_path("foo")), "/bar")
+		self.assertEquals(options.env_path("foo"), "/bar")
 
 if __name__ == "__main__":
 	unittest.main()

@@ -50,7 +50,6 @@ def _repositoriesOnDisk():
 	for rep in os.listdir(reposdir):
 		if os.path.isdir((reposdir + rep).encode('utf-8')):
 			repositories.append(rep)
-
 	return repositories
 
 def add(name):

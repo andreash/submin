@@ -94,7 +94,7 @@ class Repositories(View):
 		reposname = ''
 
 		if req.post and req.post['repository']:
-			import re, commands
+			import re
 
 			reposname = req.post.get('repository').strip()
 			if re.findall('[^a-zA-Z0-9_-]', reposname):

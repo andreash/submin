@@ -78,7 +78,7 @@ class User(object):
 		                              # default value
 
 	def __str__(self):
-		return unicode(self).encode('utf-8')
+	 	return self._name
 
 	def __unicode__(self):
 		return self._name

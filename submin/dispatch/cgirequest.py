@@ -17,7 +17,7 @@ class CGIRequest(Request):
 		self.get = CGIGet(self.__environ.get('QUERY_STRING'))
 		if self.__environ.get('HTTP_COOKIE'):
 			self._incookies.load(self.__environ.get('HTTP_COOKIE', '')) 
-		self.path_info = unicode(self.__environ.get('PATH_INFO', ''), 'utf-8')
+		self.path_info = self.__environ.get('PATH_INFO', '')
 		self.remote_address = self.__environ.get('REMOTE_ADDR')
 	
 	def write(self, content):

@@ -114,7 +114,7 @@ def git_repos_wrong_perms(git_dir):
 	apache = www_user()
 	for root, dirs, files in os.walk(git_dir.encode('utf-8')):
 		for d in dirs:
-			path = os.path.join(root, d)
+			path = os.path.join(root, d).decode('utf-8')
 			# skip .ssh dir
 			if path == ssh_dir:
 				continue
@@ -133,7 +133,6 @@ def git_repos_wrong_perms(git_dir):
 					relative = path[len(git_dir) + 1:]
 					bad_dirs.append({'name': relative, 'mode': modestr,
 						'user': user.pw_name, 'group': group.gr_name})
-
 	return bad_dirs
 
 def hook_uptodate(filename, version_re, newest_version):

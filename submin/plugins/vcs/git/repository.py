@@ -37,7 +37,7 @@ def _repositoriesOnDisk():
 		if os.path.isdir(rep):
 			name = rep[rep.rfind('/') + 1:]
 			name = name[:-4] # chop off '.git'
-			repositories.append(unicode(name, 'utf-8'))
+			repositories.append(name)
 
 	return repositories
 
@@ -100,7 +100,7 @@ It is converted to UTF-8 (or other?) somewhere in the dispatcher."""
 		dirname = str(self.dir + "refs" + "heads" + "*")
 		for path in glob.glob(dirname):
 			if os.path.isfile(path):
-				yield {"name": unicode(os.path.basename(path), 'utf-8'), "has_subdirs": False}
+				yield {"name": os.path.basename(path), "has_subdirs": False}
 		return
 
 	def subdirs(self, subdir):

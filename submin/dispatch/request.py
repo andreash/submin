@@ -1,5 +1,4 @@
 import cgi # for cgi.FieldStorage/parse_qs etc.
-import logging
 
 from http.cookies import SimpleCookie
 

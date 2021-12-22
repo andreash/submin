@@ -3,6 +3,8 @@ import threading
 from submin.models.exceptions import StorageAlreadySetup
 from submin.plugins.storage.sql import schema
 
+import logging
+
 class DBWrapper(threading.local):
 	def __init__(self):
 		self.con = None
@@ -40,6 +42,7 @@ def close():
 
 def open(settings):
 	global db, storage_debug
+	logging.debug('Open storage %s' % settings.sqlite_path)
 	db.open(settings.sqlite_path)
 	storage_debug = hasattr(settings, "db_debug") and settings.db_debug
 

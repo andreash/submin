@@ -9,7 +9,7 @@ def export_ssh_keys(*args, **kwargs):
 
 def export_notifications(**kwargs):
 	repositories = ""
-	if 'reposname' in kwargs.iterkeys():
+	if 'reposname' in iter(kwargs.keys()):
 		repositories = kwargs['reposname']
 
 	try:

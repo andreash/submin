@@ -36,7 +36,7 @@ def run():
 	key_fp.close()
 
 	# instead of writing ascii, write utf-8 encoding
-	fp = codecs.open(str(filename), "w+", 'utf-8')
+	fp = codecs.open(str(filename), "a+", 'utf-8')
 	env_vars = "PATH='%s' PYTHONPATH='%s'" % \
 			(options.value("env_path"), ':'.join(sys.path))
 	fp.write('command="%s submin2-admin \'%s\' git admin" %s\n' % \

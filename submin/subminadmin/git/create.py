@@ -2,6 +2,7 @@ import os
 import sys
 import errno
 import shutil
+import subprocess
 
 from submin.common import shellscript
 from submin.models import options, repository
@@ -15,7 +16,7 @@ def run(reponame):
 	old_path = os.environ["PATH"]
 	os.environ["PATH"] = options.value("env_path")
 	cmd = 'GIT_DIR="%s" git --bare init' % str(reposdir)
-	(exitstatus, outtext) = commands.getstatusoutput(cmd)
+	(exitstatus, outtext) = subprocess.getstatusoutput(cmd)
 	os.environ["PATH"] = old_path
 
 	rewrite_hooks(reponame)
